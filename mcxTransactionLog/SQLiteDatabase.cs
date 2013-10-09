@@ -2,56 +2,46 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SQLite;
 using System.IO;
 using System.Linq;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace mcxTrans
 {
-    public class MySqlDatabase : Database
+    class SQLiteDatabase : Database
     {
-        public string DBName {get; set;}
-        public string Host { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-
+        private SQLiteConnection con = new SQLiteConnection();
         private string cs = null;
-        private MySqlDataReader iteratorTransReader = null;
+        public SQLiteDataReader iteratorTickReader = null;
+        public SQLiteDataReader iteratorTransReader = null;
 
-        public MySqlDatabase (string password, string host = "localhost", string user = "root", string dbName = @"mcxTransactionDB")
+        public SQLiteDatabase(string dbName = @"mcxTransactionDB")
         {
-            this.DBName = dbName;
-            this.Password = password;
-            this.Host = host;
-            this.User = user;
-            using (MySqlConnection con = new MySqlConnection())
+            string path = Path.Combine(Environment.GetFolderPath(
+                            Environment.SpecialFolder.ApplicationData), "CryptoDB");
+            if (!Directory.Exists(path))
             {
-                con.ConnectionString = string.Format("server={0};user={1};port=3306;password={2};pooling=false;", host, user, password);
-                con.Open();
-                using (MySqlCommand cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = string.Format("CREATE DATABASE IF NOT EXISTS {0};", dbName);
-                    cmd.ExecuteNonQuery();
-                }
+                Directory.CreateDirectory(path);
             }
-            this.cs = string.Format("server={0};user={1};database={2};port=3306;password={3};pooling=false;", host, user, dbName, password);
+            cs = string.Format("Data Source={0};pooling=false", Path.Combine(path, dbName));
+            con.ConnectionString = cs;
+            con.Open();
         }
 
         public override void CreateTransactionTable(string tableName)
         {
-            using (MySqlConnection con = new MySqlConnection())
+            using (SQLiteConnection con = new SQLiteConnection())
             {
                 con.ConnectionString = cs;
                 con.Open();
 
-                using (MySqlCommand cmd = con.CreateCommand())
+                using (SQLiteCommand cmd = con.CreateCommand())
                 {
                     cmd.CommandText
                         = string.Format("CREATE TABLE IF NOT EXISTS {0}"
-                                        + "(id INTEGER PRIMARY KEY AUTO_INCREMENT, trans_id INTEGER, timestamp INTEGER, trans_type TEXT, order_type TEXT, price DECIMAL(15,8), quantity DECIMAL(15,8), balance DECIMAL (20,8), remark TEXT);"
+                                        + "(id INTEGER PRIMARY KEY AUTOINCREMENT, trans_id INTEGER, timestamp INTEGER, trans_type STRING, order_type STRING, price REAL, quantity REAL, balance REAL, remark STRING);"
                                                     , tableName);
                     cmd.ExecuteNonQuery();
                 }
@@ -60,11 +50,11 @@ namespace mcxTrans
 
         public override bool Get1stTransaction(string tableName, ref int timestamp, ref string transType, ref string orderType, ref decimal price, ref decimal quantity, ref decimal balance, ref string remark)
         {
-            MySqlConnection con = new MySqlConnection();
+            SQLiteConnection con = new SQLiteConnection();
             con.ConnectionString = cs;
             con.Open();
 
-            using (MySqlCommand cmd = con.CreateCommand())
+            using (SQLiteCommand cmd = con.CreateCommand())
             {
                 cmd.CommandText = string.Format("SELECT * from {0} ORDER BY timestamp ASC;", tableName);
                 iteratorTransReader = cmd.ExecuteReader();
@@ -106,15 +96,15 @@ namespace mcxTrans
 
         public override bool RecordExist(int timestamp, decimal quantity, string tableName)
         {
-            using (MySqlConnection con = new MySqlConnection())
+            using (SQLiteConnection con = new SQLiteConnection())
             {
                 con.ConnectionString = cs;
                 con.Open();
 
-                using (MySqlCommand cmd = con.CreateCommand())
+                using (SQLiteCommand cmd = con.CreateCommand())
                 {
                     cmd.CommandText = string.Format("SELECT * FROM {0} WHERE timestamp = {1} AND quantity = {2};", tableName, timestamp, quantity);
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    SQLiteDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
                         return true;
@@ -128,11 +118,11 @@ namespace mcxTrans
         {
             if (!RecordExist(timestamp, quantity, tableName))
             {
-                using (MySqlConnection con = new MySqlConnection())
+                using (SQLiteConnection con = new SQLiteConnection())
                 {
                     con.ConnectionString = cs;
                     con.Open();
-                    using (MySqlCommand cmd = con.CreateCommand())
+                    using (SQLiteCommand cmd = con.CreateCommand())
                     {
                         cmd.CommandText = string.Format("INSERT INTO {0} (timestamp, trans_type, order_type, price, quantity, balance, remark) VALUES ({1}, \"{2}\", \"{3}\", {4}, {5}, {6}, \"{7}\")"
                                                         , tableName, timestamp, transType, orderType, price, quantity, balance, remark);

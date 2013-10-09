@@ -7,20 +7,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Windows.Threading;
 using mcxNOW;
 
 namespace mcxTrans
 {
     class TransactionData
     {
-        private MySqlDatabase db = null;
+        private Database db = null;
         private Api tradeAPI = null;
+        private DispatcherTimer fetchTransactionTimer = null;
 
-        public TransactionData(Api tradeAPI, string host, string user, string password)
+        public TransactionData(Api tradeAPI, Database.DatabaseInitialiseData databaseInitialiseData)
         {
             this.tradeAPI = tradeAPI;
             /// Make a connection with the CryptoBot database, or create it when it does not exist
-            db = new MySqlDatabase(host, user, password);
+            db = Database.GetDatabaseHandle(databaseInitialiseData);
+            
             foreach (Currency currency in Currency.GetAll())
             {
                 string tableName = currency.Code + "Transactions";
@@ -35,7 +38,7 @@ namespace mcxTrans
         public void StartFetchingPrice()
         {
             //To gather transaction data start a timed function every 60s
-            System.Windows.Threading.DispatcherTimer fetchTransactionTimer = new System.Windows.Threading.DispatcherTimer();
+            fetchTransactionTimer = new System.Windows.Threading.DispatcherTimer();
             fetchTransactionTimer.Tick += new EventHandler(FetchTransactionHistory);
             fetchTransactionTimer.Interval = new TimeSpan(0, 0, 1, 0, 0);
             fetchTransactionTimer.Start();
@@ -52,6 +55,7 @@ namespace mcxTrans
             decimal balance = 0;
             string remark = null;
 
+            if (fetchTransactionTimer != null) fetchTransactionTimer.Stop();
             using(StreamWriter writer = new StreamWriter(filename, true))
             {
                 writer.WriteLine("Currency,Date/Time,Transaction type,Order type,Price,Quantity,Balance,Remark");
@@ -98,6 +102,7 @@ namespace mcxTrans
                     }
                 }
             }
+            if (fetchTransactionTimer != null) fetchTransactionTimer.Start();
         }
 
         private void FetchTransactionHistory(Object sender, EventArgs e)

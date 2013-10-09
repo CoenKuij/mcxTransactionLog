@@ -44,6 +44,14 @@ namespace mcxTrans
             lbAuth.Visibility = Visibility.Hidden;
             tbAuth.Visibility = Visibility.Hidden;
 
+            lbDBPassword.IsEnabled = false;
+            lbDBUser.IsEnabled = false;
+            lbDBHost.IsEnabled = false;
+
+            tbHost.IsEnabled = false;
+            tbUser.IsEnabled = false;
+            tbPassword.IsEnabled = false;
+
         }
 
         private void Login()
@@ -66,7 +74,31 @@ namespace mcxTrans
             {
                 tradeAPI.Login(tbUserName.Text, pbPassword.Password, tbAuth.Text, true);
             }
-            transactionData = new TransactionData(tradeAPI, tbHost.Text, tbUser.Text, tbPassword.Text);
+
+            Database.DatabaseInitialiseData did;
+            if (cbMySQL.IsChecked == true)
+            {
+                did = new Database.DatabaseInitialiseData
+                {
+                    Type = Database.DatabaseTypes.MYSQL,
+                    DBName = @"mcxTransactionDB",
+                    Host = tbHost.Text,
+                    User = tbUser.Text,
+                    Password = tbPassword.Text
+                };
+            }
+            else
+            {
+                did = new Database.DatabaseInitialiseData
+                {
+                    Type = Database.DatabaseTypes.SQLITE,
+                    DBName = @"mcxTransactionDB",
+                    Host = "",
+                    User = "",
+                    Password = ""
+                };
+            }
+            transactionData = new TransactionData(tradeAPI, did);
         }
 
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
@@ -151,6 +183,28 @@ namespace mcxTrans
             tbUserName.Visibility = Visibility.Hidden;
             pbPassword.Visibility = Visibility.Hidden;
 
+        }
+
+        private void cbMySQL_Checked(object sender, RoutedEventArgs e)
+        {
+            lbDBPassword.IsEnabled = true;
+            lbDBUser.IsEnabled = true;
+            lbDBHost.IsEnabled = true;
+
+            tbHost.IsEnabled = true;
+            tbUser.IsEnabled = true;
+            tbPassword.IsEnabled = true;
+        }
+
+        private void cbMySQL_Unchecked(object sender, RoutedEventArgs e)
+        {
+            lbDBPassword.IsEnabled = false;
+            lbDBUser.IsEnabled = false;
+            lbDBHost.IsEnabled = false;
+
+            tbHost.IsEnabled = false;
+            tbUser.IsEnabled = false;
+            tbPassword.IsEnabled = false;
         }
     }
 }
