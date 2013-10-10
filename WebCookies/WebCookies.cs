@@ -49,12 +49,12 @@ namespace WebCookies
         {
             string s = Environment.GetFolderPath(
                              Environment.SpecialFolder.ApplicationData);
-            s += @"\Mozilla\Profiles\";
+            s += @"\Mozilla\Firefox\Profiles\";
 
             try
             {
                 DirectoryInfo di = new DirectoryInfo(s);
-                DirectoryInfo[] dir = di.GetDirectories("*.default User");
+                DirectoryInfo[] dir = di.GetDirectories("*.default");
                 if (dir.Length != 1)
                     return string.Empty;
 
