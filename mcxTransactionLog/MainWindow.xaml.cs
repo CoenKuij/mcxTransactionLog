@@ -32,6 +32,7 @@ namespace mcxTrans
         public MainWindow()
         {
             InitializeComponent();
+            
             rbBrowserCookie.ToolTip = new ToolTip { Content = "Use the stored browser cookies as login. Assumes a previous valid login with the selected browser" };
             rbUserPass.ToolTip = new ToolTip { Content = "User your mcx user name and password to login" };
             btnStart.ToolTip = new ToolTip { Content = "Start storing the transactions in the Database" };

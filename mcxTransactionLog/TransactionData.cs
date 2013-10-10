@@ -130,7 +130,8 @@ namespace mcxTrans
                 }
                 catch (Exception ex)
                 {
-                    if (ex.GetType() != typeof(mcxNOW.ConnectionErrorException)) throw (ex);
+                    //if (ex.GetType() != typeof(mcxNOW.ConnectionErrorException)) throw (ex);
+                    throw (ex);
                 }
             }
         }

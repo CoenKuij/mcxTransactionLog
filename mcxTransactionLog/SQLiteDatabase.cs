@@ -96,6 +96,7 @@ namespace mcxTrans
 
         public override bool RecordExist(int timestamp, decimal quantity, string tableName)
         {
+            bool result = false;
             using (SQLiteConnection con = new SQLiteConnection())
             {
                 con.ConnectionString = cs;
@@ -107,11 +108,12 @@ namespace mcxTrans
                     SQLiteDataReader reader = cmd.ExecuteReader();
                     if (reader.Read())
                     {
-                        return true;
+                        result = true;
                     }
-                    return false;
+                    else result = false;
                 }
             }
+            return result;
         }
 
         public override bool AddTransaction(string tableName, int timestamp, string transType, string orderType, decimal price, decimal quantity, decimal balance, string remark)

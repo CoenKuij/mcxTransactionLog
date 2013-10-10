@@ -60,26 +60,28 @@ namespace mcxTrans
 
         public override bool Get1stTransaction(string tableName, ref int timestamp, ref string transType, ref string orderType, ref decimal price, ref decimal quantity, ref decimal balance, ref string remark)
         {
-            MySqlConnection con = new MySqlConnection();
-            con.ConnectionString = cs;
-            con.Open();
-
-            using (MySqlCommand cmd = con.CreateCommand())
+            using (MySqlConnection con = new MySqlConnection())
             {
-                cmd.CommandText = string.Format("SELECT * from {0} ORDER BY timestamp ASC;", tableName);
-                iteratorTransReader = cmd.ExecuteReader();
-                if (iteratorTransReader.Read())
+                con.ConnectionString = cs;
+                con.Open();
+
+                using (MySqlCommand cmd = con.CreateCommand())
                 {
-                    timestamp = Convert.ToInt32(iteratorTransReader["timestamp"]);
-                    transType = iteratorTransReader["trans_type"].ToString();
-                    orderType = iteratorTransReader["order_type"].ToString();
-                    price = Convert.ToDecimal(iteratorTransReader["price"]);
-                    quantity = Convert.ToDecimal(iteratorTransReader["quantity"]);
-                    balance = Convert.ToDecimal(iteratorTransReader["balance"]);
-                    remark = iteratorTransReader["remark"].ToString();
-                    return true;
+                    cmd.CommandText = string.Format("SELECT * from {0} ORDER BY timestamp ASC;", tableName);
+                    iteratorTransReader = cmd.ExecuteReader();
+                    if (iteratorTransReader.Read())
+                    {
+                        timestamp = Convert.ToInt32(iteratorTransReader["timestamp"]);
+                        transType = iteratorTransReader["trans_type"].ToString();
+                        orderType = iteratorTransReader["order_type"].ToString();
+                        price = Convert.ToDecimal(iteratorTransReader["price"]);
+                        quantity = Convert.ToDecimal(iteratorTransReader["quantity"]);
+                        balance = Convert.ToDecimal(iteratorTransReader["balance"]);
+                        remark = iteratorTransReader["remark"].ToString();
+                        return true;
+                    }
+                    else return false;
                 }
-                else return false;
             }
         }
 

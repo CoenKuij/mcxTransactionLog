@@ -1,7 +1,8 @@
 ﻿<Window x:Class="mcxTrans.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="mcxTRANSACTION" Height="380" Width="452">
+        Title="mcxTRANSACTION" Height="380" Width="452"
+        >
     <Grid>
         <Border x:Name="brdLoginMethod" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="166" Margin="27,21,0,0" VerticalAlignment="Top" Width="178">
             <Grid>
