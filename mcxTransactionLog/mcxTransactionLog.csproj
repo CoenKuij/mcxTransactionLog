@@ -178,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="mcx.ico" />
-    <None Include="mcx.png" />
     <Content Include="x64\SQLite.Interop.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

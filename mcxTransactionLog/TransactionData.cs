@@ -56,7 +56,7 @@ namespace mcxTrans
             string remark = null;
 
             if (fetchTransactionTimer != null) fetchTransactionTimer.Stop();
-            using(StreamWriter writer = new StreamWriter(filename, true))
+            using(StreamWriter writer = new StreamWriter(filename,false))
             {
                 writer.WriteLine("Currency,Date/Time,Transaction type,Order type,Price,Quantity,Balance,Remark");
                 foreach (Currency currency in Currency.GetAll())

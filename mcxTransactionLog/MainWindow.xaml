@@ -1,26 +1,26 @@
 ﻿<Window x:Class="mcxTrans.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="mcxTRANSACTION" Height="380" Width="452"
+        Title="mcxTRANSACTION" Height="426" Width="452"
         >
     <Grid>
-        <Border x:Name="brdLoginMethod" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="166" Margin="27,21,0,0" VerticalAlignment="Top" Width="178">
+        <Border x:Name="brdLoginMethod" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="166" Margin="27,54,0,0" VerticalAlignment="Top" Width="178">
             <Grid>
                 <Label Content="Login method" HorizontalAlignment="Left" Height="35" Margin="32,-5,0,0" VerticalAlignment="Top" Width="124" FontWeight="Bold" FontSize="16"/>
                 <RadioButton x:Name="rbBrowserCookie" Content="Browser cookies" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="107" GroupName="loginmethod" IsChecked="True" Click="rbBrowserCookie_Click" Margin="5,32,0,0"/>
                 <RadioButton x:Name="rbUserPass" Content="Username + password" HorizontalAlignment="Left" Height="21"  VerticalAlignment="Top" Width="143" GroupName="loginmethod" Click="rbUserPass_Click" Margin="5,64,0,0"/>
             </Grid>
         </Border>
-        <Button x:Name="btnStart" Content="Start Bot" HorizontalAlignment="Left" Height="50" Margin="297,285,0,0" VerticalAlignment="Top" Width="118" Click="Button_Click"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="71" Margin="27,192,0,0" VerticalAlignment="Top" Width="388"/>
-        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Height="20" Margin="121,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" />
-        <Label x:Name="lbUserName" Content="Username:" HorizontalAlignment="Left" Height="29" Margin="39,202,0,0" VerticalAlignment="Top" Width="68" />
-        <Label x:Name="lbPassword" Content="Password:" HorizontalAlignment="Left" Height="29" Margin="39,229,0,0" VerticalAlignment="Top" Width="68" />
-        <PasswordBox x:Name="pbPassword" MaxLength="130"  HorizontalAlignment="Left" Height="20" Margin="121,233,0,0" VerticalAlignment="Top" Width="180" RenderTransformOrigin="1.063,-0.9" />
-        <RadioButton x:Name="rbChrome" Content="Chrome" HorizontalAlignment="Left" Height="22" Margin="46,208,0,0" VerticalAlignment="Top" Width="94" GroupName="browser" IsChecked="True"/>
-        <RadioButton x:Name="rbFF" Content="FireFox" HorizontalAlignment="Left" Height="22" Margin="207,208,0,0" VerticalAlignment="Top" Width="94" GroupName="browser"/>
-        <RadioButton x:Name="rbIE" Content="Internet Explorer" HorizontalAlignment="Left" Height="22" Margin="46,234,0,0" VerticalAlignment="Top" Width="113" GroupName="browser"/>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="166" Margin="208,21,0,0" VerticalAlignment="Top" Width="207">
+        <Button x:Name="btnStart" Content="Start Bot" HorizontalAlignment="Left" Height="50" Margin="297,318,0,0" VerticalAlignment="Top" Width="118" Click="Button_Click"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="71" Margin="27,225,0,0" VerticalAlignment="Top" Width="388"/>
+        <TextBox x:Name="tbUserName" HorizontalAlignment="Left" Height="20" Margin="121,239,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="105" />
+        <Label x:Name="lbUserName" Content="Username:" HorizontalAlignment="Left" Height="29" Margin="39,235,0,0" VerticalAlignment="Top" Width="68" />
+        <Label x:Name="lbPassword" Content="Password:" HorizontalAlignment="Left" Height="29" Margin="39,262,0,0" VerticalAlignment="Top" Width="68" />
+        <PasswordBox x:Name="pbPassword" MaxLength="130"  HorizontalAlignment="Left" Height="20" Margin="121,266,0,0" VerticalAlignment="Top" Width="180" RenderTransformOrigin="1.063,-0.9" />
+        <RadioButton x:Name="rbChrome" Content="Chrome" HorizontalAlignment="Left" Height="22" Margin="46,241,0,0" VerticalAlignment="Top" Width="94" GroupName="browser" IsChecked="True"/>
+        <RadioButton x:Name="rbFF" Content="FireFox" HorizontalAlignment="Left" Height="22" Margin="207,241,0,0" VerticalAlignment="Top" Width="94" GroupName="browser"/>
+        <RadioButton x:Name="rbIE" Content="Internet Explorer" HorizontalAlignment="Left" Height="22" Margin="46,267,0,0" VerticalAlignment="Top" Width="113" GroupName="browser"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="166" Margin="208,54,0,0" VerticalAlignment="Top" Width="207">
             <Grid Margin="0,0,-19,0">
                 <Label Content="Database" HorizontalAlignment="Left" Height="35" Margin="48,-4,0,0" VerticalAlignment="Top" Width="84" FontWeight="Bold" FontSize="16"/>
                 <Label x:Name="lbDBHost" Content="Host:" HorizontalAlignment="Left" Height="27" Margin="13,30,0,107" Width="56"/>
@@ -33,8 +33,16 @@
 
             </Grid>
         </Border>
-        <Button x:Name="btnExport" Content="Export CSV" HorizontalAlignment="Left" Height="50" Margin="162,285,0,0" VerticalAlignment="Top" Width="118" Click="ButtonExport_Click"/>
-        <Label x:Name="lbAuth" Content="Google auth:" HorizontalAlignment="Left" Height="29" Margin="228,201,0,0" VerticalAlignment="Top" Width="84" />
-        <TextBox x:Name="tbAuth" HorizontalAlignment="Left" Height="20" Margin="326,205,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="1.063,-0.9" />
+        <Button x:Name="btnExport" Content="Export CSV" HorizontalAlignment="Left" Height="50" Margin="162,318,0,0" VerticalAlignment="Top" Width="118" Click="ButtonExport_Click"/>
+        <Label x:Name="lbAuth" Content="Google auth:" HorizontalAlignment="Left" Height="29" Margin="228,234,0,0" VerticalAlignment="Top" Width="84" />
+        <TextBox x:Name="tbAuth" HorizontalAlignment="Left" Height="20" Margin="326,238,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="1.063,-0.9" />
+        <Menu Height="20">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <DockPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+            <MenuItem Header="Help" HorizontalAlignment="Right" />
+        </Menu>
     </Grid>
 </Window>
