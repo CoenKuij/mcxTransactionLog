@@ -49,16 +49,15 @@ namespace WebCookies
         {
             string s = Environment.GetFolderPath(
                              Environment.SpecialFolder.ApplicationData);
-            s += @"\Mozilla\Profiles\";
+            s += @"\Mozilla\"; 
 
+            IEnumerable<string> list = Directory.GetDirectories(s, "*default*", SearchOption.AllDirectories);
             try
             {
-                DirectoryInfo di = new DirectoryInfo(s);
-                DirectoryInfo[] dir = di.GetDirectories("*.default User");
-                if (dir.Length != 1)
+                if (!list.Cast<string>().Any())
                     return string.Empty;
 
-                s += dir[0].Name + @"\" + "cookies.sqlite";
+                s = list.ElementAt(0) + @"\" + "cookies.sqlite";
             }
             catch (Exception)
             {
