@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Windows.Threading;
+using System.Windows;
 using mcxNOW;
 
 namespace mcxTrans
@@ -119,18 +120,22 @@ namespace mcxTrans
                     foreach (TransactionHistory.Transaction trans in transactionHistory.transactions)
                     {
                             /// only store the hisotry in the database when it is newer that the latest tick in the database
-                            if (!db.AddTransaction(tableName, Convert.ToInt32(trans.timestamp),
-                                           trans.transType.ToString(),
-                                           trans.orderType.ToString(),
-                                           trans.price,
-                                           trans.quantity,
-                                           trans.balance,
-                                           trans.remark)) break;
+                        if (!db.AddTransaction(tableName, Convert.ToInt32(trans.timestamp),
+                                       trans.transType.ToString(),
+                                       trans.orderType.ToString(),
+                                       trans.price,
+                                       trans.quantity,
+                                       trans.balance,
+                                       trans.remark))
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
                     //if (ex.GetType() != typeof(mcxNOW.ConnectionErrorException)) throw (ex);
+                    MessageBox.Show(ex.Message, "Unexpected error");
                     throw (ex);
                 }
             }
@@ -267,7 +272,8 @@ namespace mcxTrans
             }
             catch (Exception e)
             {
-                if (e.GetType() != typeof(mcxNOW.ConnectionErrorException)) throw e;
+                MessageBox.Show(e.Message, "Unexpected error");
+                throw e;
             }
             return trans;
         }
