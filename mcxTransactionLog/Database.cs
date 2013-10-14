@@ -36,7 +36,7 @@ namespace mcxTrans
 
         public abstract bool GetNextTransaction(ref int timestamp, ref string transType, ref string orderType, ref decimal price, ref decimal quantity, ref decimal balance, ref string remark);
 
-        public abstract bool RecordExist(int timestamp, decimal quantity, string tableName);
+        public abstract bool RecordExist(int timestamp, string orderType, decimal quantity, decimal balance, string tableName);
 
         public abstract bool AddTransaction(string tableName, int timestamp, string transType, string orderType, decimal price, decimal quantity, decimal balance, string remark);
     }

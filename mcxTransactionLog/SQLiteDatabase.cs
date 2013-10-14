@@ -90,12 +90,12 @@ namespace mcxTrans
             return true;
         }
 
-        public override bool RecordExist(int timestamp, decimal quantity, string tableName)
+        public override bool RecordExist(int timestamp, string orderType, decimal quantity, decimal balance, string tableName)
         {
             bool result = false;
             using (SQLiteCommand cmd = con.CreateCommand())
             {
-                cmd.CommandText = string.Format("SELECT * FROM {0} WHERE timestamp = {1} AND quantity = {2};", tableName, timestamp, quantity);
+                cmd.CommandText = string.Format("SELECT * FROM {0} WHERE timestamp = {1} AND quantity = {2} AND order_type = \"{3}\" AND balance = {4};", tableName, timestamp, quantity, orderType, balance);
                 SQLiteDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
@@ -110,7 +110,7 @@ namespace mcxTrans
         {
             
             bool result = false;
-            if (!RecordExist(timestamp, quantity, tableName))
+            if (!RecordExist(timestamp, orderType, quantity, balance, tableName))
             {
                 using (SQLiteCommand cmd = con.CreateCommand())
                 {
