@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+﻿using mcxNOW;
+using System;
 using System.IO;
-using System.Windows.Threading;
+using System.Text.RegularExpressions;
 using System.Windows;
-using mcxNOW;
 
 namespace mcxTrans
 {
@@ -17,7 +10,6 @@ namespace mcxTrans
     {
         private Database db = null;
         private Api tradeAPI = null;
-        private DispatcherTimer fetchTransactionTimer = null;
 
         public TransactionData(Api tradeAPI, Database.DatabaseInitialiseData databaseInitialiseData)
         {
@@ -32,19 +24,6 @@ namespace mcxTrans
             }
         }
 
-
-        /// <summary>
-        /// Starts the fetching of price data
-        /// </summary>
-        public void StartFetchingPrice()
-        {
-            //To gather transaction data start a timed function every 60s
-            fetchTransactionTimer = new System.Windows.Threading.DispatcherTimer();
-            fetchTransactionTimer.Tick += new EventHandler(FetchTransactionHistory);
-            fetchTransactionTimer.Interval = new TimeSpan(0, 0, 1, 0, 0);
-            fetchTransactionTimer.Start();
-        }
-
         public void Export(string filename)
         {
             string tableName = null;
@@ -56,7 +35,6 @@ namespace mcxTrans
             decimal balance = 0;
             string remark = null;
 
-            if (fetchTransactionTimer != null) fetchTransactionTimer.Stop();
             using(StreamWriter writer = new StreamWriter(filename,false))
             {
                 writer.WriteLine("Currency,Date/Time,Transaction type,Order type,Price,Quantity,Balance,Remark");
@@ -103,10 +81,9 @@ namespace mcxTrans
                     }
                 }
             }
-            if (fetchTransactionTimer != null) fetchTransactionTimer.Start();
         }
 
-        private void FetchTransactionHistory(Object sender, EventArgs e)
+        public void FetchTransactionHistory()
         {
             foreach (Currency currency in Currency.GetAll())
             {
